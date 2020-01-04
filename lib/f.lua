@@ -1,24 +1,10 @@
-
--- peripheral identification
---
-function periphSearch(type)
-   local names = peripheral.getNames()
-   local i, name
-   for i, name in pairs(names) do
-      if peripheral.getType(name) == type then
-         return peripheral.wrap(name)
-      end
-   end
-   return null
-end
-
 -- formatting
 
 function format_int(number)
 
 	if number == nil then number = 0 end
 
-  local i, j, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
+  local _, _, minus, int, fraction = tostring(number):find('([-]?)(%d+)([.]?%d*)')
   -- reverse the int-string and append a comma to all blocks of 3 digits
   int = int:reverse():gsub("(%d%d%d)", "%1,")
 
@@ -40,7 +26,7 @@ end
 function draw_text_right(mon, offset, y, text, text_color, bg_color)
   mon.monitor.setBackgroundColor(bg_color)
   mon.monitor.setTextColor(text_color)
-  mon.monitor.setCursorPos(mon.X-string.len(tostring(text))-offset,y)
+  mon.monitor.setCursorPos(mon.X-string.len(tostring(text))-offset+1,y)
   mon.monitor.write(text)
 end
 

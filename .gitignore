@@ -1,8 +1,8 @@
-
-# general
-.DS_Store
-
-# structure
-*.swp
-*.*~
-
+*
+*/*
+!/lib/*
+!/examples/*
+!/install.lua
+!/drmon.lua
+!/.gitignore
+!/README.md
