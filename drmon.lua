@@ -37,32 +37,32 @@ local action = "None since reboot"
 local emergencyCharge = false
 local emergencyTemp = false
 
-mon.monitor = peripheral.find("monitor", function(_, object) return object.isColour() end)
+reactor = peripheral.wrap(reactorSide)
 outputFluxGate = peripheral.wrap(fluxGateSide)
 inputFluxGate = peripheral.find("flux_gate", function(name, _) return name ~= fluxGateSide end)
-reactor = peripheral.wrap(reactorSide)
+mon.monitor = peripheral.find("monitor", function(_, object) return object.isColour() end)
 
-if not mon.monitor then
-	error("No valid monitor was found")
+if not reactor then
+    error("No valid reactor was found")
 end
 
 if not outputFluxGate then
-	error("No valid output flux gate was found")
-end
-
-if not reactor then
-	error("No valid reactor was found")
+    error("No valid output flux gate was found")
 end
 
 if not inputFluxGate then
-	error("No valid input flux gate was found")
+    error("No valid input flux gate was found")
+end
+
+if not mon.monitor then
+	error("No valid monitor was found")
 end
 
 mon.X, mon.Y = mon.monitor.getSize()
 
 --write settings to config file
 function saveConfig()
-  sw = fs.open("config.txt", "w")   
+  sw = fs.open("config.txt", "w")
   sw.writeLine(version)
   sw.writeLine(autoInputGate)
   sw.writeLine(autoOutputGate)
@@ -116,7 +116,7 @@ function buttons()
         -- 2-4 = -1000, 6-9 = -10000, 10-12,8 = -100000
         -- 18-20 = +1000, 22-24 = +10000, 26-28 = +100000
         if xPos >= 2 and xPos <= 4 then
-          curOutputGate = curOutputGate-1000, maxOutput
+          curOutputGate = curOutputGate-1000
         elseif xPos >= 6 and xPos <= 9 then
           curOutputGate = curOutputGate-10000
         elseif xPos >= 10 and xPos <= 12 then
@@ -176,7 +176,7 @@ function drawButtons(y)
 end
 
 function update()
-  while true do 
+  while true do
 
     f.clear(mon)
 
@@ -222,7 +222,7 @@ function update()
     if autoOutputGate then
       f.draw_text(mon, 14, 8, "AUT", colors.white, colors.gray)
     else
-      f.draw_text(mon, 14, 8, "MAN", colors.white, colors,gray)
+      f.draw_text(mon, 14, 8, "MAN", colors.white, colors.gray)
       drawButtons(8)
     end
 
@@ -280,7 +280,7 @@ function update()
         reactor.chargeReactor()
       end
     end
-    
+
     -- are we charging? open the floodgates
     if ri.status == "warming_up" then
       inputFluxGate.setSignalLowFlow(900000)
@@ -327,7 +327,7 @@ function update()
 
     -- safeguards
     --
-    
+
     -- out of fuel, kill it
     if fuelPercent <= 10 then
       reactor.stopReactor()

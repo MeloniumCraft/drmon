@@ -23,4 +23,3 @@ startupFile = startup.readAll()
 local file2 = fs.open("startup", "w")
 file2.write(startupFile)
 file2.close()
-

@@ -45,7 +45,7 @@ you can find a very well made youtube tutorial on how to set this up [here](http
   * if you want to use different sides you need to modify `startup` after you have installed this and specify the sides
 * connect a modem to your input flux gate (the one connected to your reactor energy injector)
 * connect a modem to your advanced computer
-* setup yoru monitors to be a 3x3 and connect a modem to anywhere but the front
+* setup your monitors to be a 3x3 and connect a modem to anywhere but the front
 * run network cable to all 3 modems
 * install this code via running the install script using these commands :
 ```
