@@ -74,11 +74,11 @@ end
 --read settings from file
 function loadConfig()
   sr = fs.open("config.txt", "r")
-  version_conf = sr.readLine()
-  autoInputGate_conf = tonumber(sr.readLine())
-  autoOutputGate_conf = (sr.readLine() == "true")
-  curInputGate_conf = tonumber(sr.readLine())
-  curOutputGate_conf = (sr.readLine() == "true")
+  version = sr.readLine()
+  autoInputGate = (sr.readLine() == "true")
+  autoOutputGate = (sr.readLine() == "true")
+  curInputGate = tonumber(sr.readLine())
+  curOutputGate = tonumber(sr.readLine())
   sr.close()
 end
 
@@ -89,12 +89,6 @@ if not fs.exists("config.txt") then
 else
   if not pcall(loadConfig) then
     saveConfig()
-  else
-    if version ~= version_conf then
-      saveConfig()
-    else
-      autoInputGate, autoOutputGate, curInputGate, curOutputGate = autoInputGate_conf, autoOutputGate_conf, curInputGate_conf, curOutputGate_conf
-    end
   end
 end
 
@@ -106,12 +100,9 @@ function buttons()
 
 
     if yPos == 8 then
-      if autoOutputGate then
-        -- output gate toggle
-        if xPos >= 14 and xPos <= 16 then
-          autoOutputGate = not autoOutputGate
-        end
-      else
+      if xPos >= 14 and xPos <= 16 then
+        autoOutputGate = not autoOutputGate
+      elseif not autoOutputGate then
         -- output gate controls
         -- 2-4 = -1000, 6-9 = -10000, 10-12,8 = -100000
         -- 18-20 = +1000, 22-24 = +10000, 26-28 = +100000
@@ -137,7 +128,7 @@ function buttons()
         if xPos >= 14 and xPos <= 16 then
           autoInputGate = not autoInputGate
         end
-      else
+      elseif not autoInputGate then
         -- input gate controls
         -- 2-4 = -1000, 6-9 = -10000, 10-12,8 = -100000
         -- 18-20 = +1000, 22-24 = +10000, 26-28 = +100000
