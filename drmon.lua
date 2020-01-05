@@ -299,20 +299,24 @@ function update()
     -- auto output flux gate
     if ri.status == "running" then
       if autoOutputGate then
-        curOutputGate = math.min(math.max(0, math.min((targetTemperature - ri.temperature) * 200, -(8 - fieldPercent) * 1e6) + ri.generationRate), maxOutput)
-        print("Target output: ".. curOutputGate)
+        fluxval = math.max(0, math.min((targetTemperature - ri.temperature) * 200, -(8 - fieldPercent) * 1e6) + ri.generationRate)
+        print("Target Output: ".. fluxval)
+        outputFluxGate.setSignalLowFlow(math.min(maxOutput, fluxval))
+      else
+        outputFluxGate.setSignalLowFlow(curInputGate)
       end
-      outputFluxGate.setSignalLowFlow(curInputGate)
     end
 
     -- are we on? regulate the input fludgate to our target field strength
     -- or set it to our saved setting since we are on manual
     if ri.status == "running" then
       if autoInputGate then
-        curInputGate = ri.fieldDrainRate / (1 - (targetStrength/100) )
-        print("Target Input: ".. curInputGate)
+        fluxval = ri.fieldDrainRate / (1 - (targetStrength/100) )
+        print("Target Input: ".. fluxval)
+        inputFluxGate.setSignalLowFlow(fluxval)
+      else
+        inputFluxGate.setSignalLowFlow(curInputGate)
       end
-      inputFluxGate.setSignalLowFlow(curInputGate)
     end
 
     -- safeguards
@@ -338,7 +342,6 @@ function update()
       action = "Temp > " .. maxTemperature
       emergencyTemp = true
     end
-    saveConfig()
     sleep(0.1)
   end
 end
