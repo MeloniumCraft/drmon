@@ -101,6 +101,7 @@ function buttons()
 
     if yPos == 8 then
       if xPos >= 14 and xPos <= 16 then
+        -- output gate toggle
         autoOutputGate = not autoOutputGate
       elseif not autoOutputGate then
         -- output gate controls
@@ -123,11 +124,9 @@ function buttons()
       end
       saveConfig()
     elseif yPos == 10 then
-      if autoInputGate then
+      if xPos >= 14 and xPos <= 16 then
         -- input gate toggle
-        if xPos >= 14 and xPos <= 16 then
-          autoInputGate = not autoInputGate
-        end
+        autoInputGate = not autoInputGate
       elseif not autoInputGate then
         -- input gate controls
         -- 2-4 = -1000, 6-9 = -10000, 10-12,8 = -100000
