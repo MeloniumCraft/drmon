@@ -49,7 +49,7 @@ you can find a very well made youtube tutorial on how to set this up [here](http
 * run network cable to all 3 modems
 * install this code via running the install script using these commands :
 ```
-> pastebin get *pastebin code here* install
+> pastebin get BQsRh3Hi install
 > install
 ```
 * modify `startup` if you wish to configure/alter any variables mentioned in the feature list, you'll find them at the top of the file
